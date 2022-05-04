@@ -130,6 +130,7 @@ public class MemberMedicineController {
     @GetMapping(value = "/check")
     public ResponseEntity<BaseResponseBody> checkMemberMedicine(@RequestParam Long memberSeq, Long medicineSeq) {
 
+        
         memberService.getMemberById(JwtUtil.getCurrentId()).orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
         memberService.getMemberById(memberSeq).orElseThrow(() -> new NotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
