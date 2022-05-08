@@ -117,6 +117,20 @@ function FamilyRegisterRequest(props) {
       }
     }
   };
+
+  const requestFamily = () => {
+    let memberInfo = {
+      memberName: membername,
+      memberPhone: phonenumber
+    }
+    requestAddFamily(memberInfo,
+      ( success ) => {
+        console.log(success)
+      }, ( fail ) => {
+        console.log(fail)
+      })
+  }
+  
   return (
     <>
       <Container style={{ padding: "50px" }}>

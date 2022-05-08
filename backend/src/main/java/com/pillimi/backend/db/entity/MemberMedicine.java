@@ -47,4 +47,7 @@ public class MemberMedicine{
     @Column
     private LocalDate memberMedicineEnd;
 
+    @Column
+    private String memberMedicineRemark;
+
 }

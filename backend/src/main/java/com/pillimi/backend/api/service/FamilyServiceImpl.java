@@ -60,7 +60,7 @@ public class FamilyServiceImpl implements FamilyService {
     }
 
     /*
-    가족 요청 목록 조회
+    가족 목록 조회
      */
     @Override
     public List<FamilyRes> getFamilyList(Member member) {
