@@ -6,6 +6,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,5 +38,13 @@ public class MemberMedicine{
     @Column
     private boolean memberMedicineNow;
 
+    @Column
+    private int memberMedicineCount;
+
+    @Column
+    private LocalDate memberMedicineStart;
+
+    @Column
+    private LocalDate memberMedicineEnd;
 
 }

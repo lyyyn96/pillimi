@@ -31,6 +31,7 @@ public class ResponseMessage {
 
     // Medicine
     public static final String GET_MEDICINE_INFO = "약품 상세 정보 조회 성공";
+    public static final String GET_TODAY_MEDICINE = "오늘 약 목록 조회 성공";
 
     // Family
     public static final String POST_FAMILY_REQUEST = "가족 요청 성공";

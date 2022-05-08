@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input, Badge, Button } from "reactstrap";
+import { Input, Badge, Button, FormGroup } from "reactstrap";
 import Datetime from "react-datetime";
 import moment from "moment";
 
@@ -57,39 +57,62 @@ function PillTakeRegister() {
         <Label content={"섭취 후 특이사항"}></Label> */}
         <br></br>
         <h3 className={PillTakeRegisterCSS.Label}>약 별칭</h3>
-        <Input onChange={onChangePillRegister} name="nick" className={PillTakeRegisterCSS.Input} type="text"></Input>
+        <FormGroup>
+          <Input onChange={onChangePillRegister} name="nick" className={PillTakeRegisterCSS.Input} type="text"></Input>
+        </FormGroup>
         <br></br>
         <h3 className={PillTakeRegisterCSS.Label}>복용 시작 일자</h3>
-        <Datetime
-          onChange={(e) => {
-            e.name = "startDate";
-            onChangePillRegister(e);
-          }}
-          value={pillRegister.startDate}
-          name="startDate"
-          className={PillTakeRegisterCSS.Input}
-          timeFormat={false}
-        />
+        <FormGroup>
+          <Datetime
+            onChange={(e) => {
+              e.name = "startDate";
+              onChangePillRegister(e);
+            }}
+            value={pillRegister.startDate}
+            name="startDate"
+            className={PillTakeRegisterCSS.Input}
+            timeFormat={false}
+          />
+        </FormGroup>
         <br></br>
         <h3 className={PillTakeRegisterCSS.Label}>복용 종료 일자</h3>
-        <Datetime
-          onChange={(e) => {
-            e.name = "endDate";
-            onChangePillRegister(e);
-          }}
-          name="endDate"
-          value={pillRegister.endDate}
-          className={PillTakeRegisterCSS.Input}
-          timeFormat={false}
-        />
+        <FormGroup>
+          <Datetime
+            onChange={(e) => {
+              e.name = "endDate";
+              onChangePillRegister(e);
+            }}
+            name="endDate"
+            value={pillRegister.endDate}
+            className={PillTakeRegisterCSS.Input}
+            timeFormat={false}
+          />
+        </FormGroup>
         <br></br>
-        <h3 className={PillTakeRegisterCSS.Label}>복용 주기</h3>
-        <Input
-          onChange={onChangePillRegister}
-          name="period"
-          className={PillTakeRegisterCSS.Input}
-          type="number"
-        ></Input>
+        <h3 className={PillTakeRegisterCSS.Label}>복용 요일</h3>
+        <FormGroup className={PillTakeRegisterCSS.DayGroup}>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            월
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            화
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            수
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            목
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            금
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            토
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            일
+          </Badge>
+        </FormGroup>
         <br></br>
         <div className="d-flex align-items-center">
           <h3
@@ -110,28 +133,39 @@ function PillTakeRegister() {
             className={`${PillTakeRegisterCSS.TimePlus} now-ui-icons ui-1_simple-add`}
           ></i>
         </div>
-        <Datetime
-          onChange={(e) => {
-            e.name = "time";
-            onChangePillRegister(e);
-          }}
-          name="time"
-          value={pillRegister.time}
-          className={PillTakeRegisterCSS.Input}
-          dateFormat={false}
-        />
+        <FormGroup>
+          <Datetime
+            onChange={(e) => {
+              e.name = "time";
+              onChangePillRegister(e);
+            }}
+            name="time"
+            value={pillRegister.time}
+            className={PillTakeRegisterCSS.Input}
+            dateFormat={false}
+          />
+        </FormGroup>
         <Badge className={PillTakeRegisterCSS.Badge} color="info" id="timeList"></Badge>
         <br></br>
-        <h3 className={PillTakeRegisterCSS.Label}>복용 용량</h3>
-        <Input
-          onChange={onChangePillRegister}
-          name="volume"
-          className={PillTakeRegisterCSS.Input}
-          type="number"
-        ></Input>
+        <h3 className={PillTakeRegisterCSS.Label}>복용 개수</h3>
+        <FormGroup>
+          <Input
+            onChange={onChangePillRegister}
+            name="volume"
+            className={PillTakeRegisterCSS.Input}
+            type="number"
+          ></Input>
+        </FormGroup>
         <br></br>
         <h3 className={PillTakeRegisterCSS.Label}>섭취 후 특이사항</h3>
-        <Input onChange={onChangePillRegister} name="caution" className={PillTakeRegisterCSS.Input} type="text"></Input>
+        <FormGroup>
+          <Input
+            onChange={onChangePillRegister}
+            name="caution"
+            className={PillTakeRegisterCSS.Input}
+            type="text"
+          ></Input>
+        </FormGroup>
       </div>
       <br></br>
       <br></br>

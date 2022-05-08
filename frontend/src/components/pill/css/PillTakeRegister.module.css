@@ -36,41 +36,41 @@
 }
 
 .ModifyBtn {
-  color: E0F2FE;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  width: 35%;
-  float: left;
+  color: #e0f2fe !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  text-align: center !important;
+  width: 35% !important;
+  float: left !important;
   margin-left: 10% !important;
   margin-right: 10% !important;
-  display: block;
-  background-color: #0284c7;
+  display: block !important;
+  background-color: #0284c7 !important;
 }
 
 .ModifyBtn:hover,
 .ModifyBtn:active,
 .ModifyBtn:focus {
-  color: E0F2FE !important;
+  color: #e0f2fe !important;
   background-color: #0284c7 !important;
   box-shadow: none !important;
 }
 
 .DoneBtn {
-  color: E0F2FE;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  width: 80%;
-  margin: auto;
-  display: block;
-  background-color: #0284c7;
+  color: #e0f2fe !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  text-align: center !important;
+  width: 80% !important;
+  margin: auto !important;
+  display: block !important;
+  background-color: #0284c7 !important;
 }
 
 .DoneBtn:hover,
 .DoneBtn:active,
 .DoneBtn:focus {
-  color: E0F2FE !important;
+  color: #e0f2fe !important;
   background-color: #0284c7 !important;
   box-shadow: none !important;
 }
@@ -83,64 +83,74 @@
 }
 
 .RemoveBtn {
-  color: E0F2FE;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  width: 35%;
+  color: #e0f2fe !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  text-align: center !important;
+  width: 35% !important;
   margin-right: 10% !important;
-  display: block;
-  background-color: #f44444;
+  display: block !important;
+  background-color: #f44444 !important;
 }
 
 .RemoveBtn:hover,
 .RemoveBtn:active,
 .RemoveBtn:focus {
-  color: E0F2FE !important;
+  color: #e0f2fe !important;
   background-color: #f44444 !important;
   box-shadow: none !important;
 }
 
 .RealRemoveBtn {
-  color: E0F2FE;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  width: 35%;
-  float: left;
+  color: #e0f2fe !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  text-align: center !important;
+  width: 35% !important;
+  float: left !important;
   margin-left: 10% !important;
   margin-right: 10% !important;
-  display: block;
-  background-color: #f44444;
+  display: block !important;
+  background-color: #f44444 !important;
 }
 
 .RealRemoveBtn:hover,
 .RealRemoveBtn:active,
 .RealRemoveBtn:focus {
-  color: E0F2FE !important;
+  color: #e0f2fe !important;
   background-color: #f44444 !important;
   box-shadow: none !important;
 }
 
 .CancelBtn {
-  color: E0F2FE;
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-  width: 35%;
+  color: #e0f2fe !important;
+  font-weight: bold !important;
+  font-size: 20px !important;
+  text-align: center !important;
+  width: 35% !important;
   margin-right: 10% !important;
-  display: block;
+  display: block !important;
   /* background-color: #0284c7; */
 }
 
 .CancelBtn:hover,
 .CancelBtn:active,
 .CancelBtn:focus {
-  color: E0F2FE !important;
+  color: #e0f2fe !important;
   /* background-color: #0284c7 !important; */
   box-shadow: none !important;
 }
 
 h5 {
   margin-bottom: 0px !important;
+}
+
+.DayGroup {
+  display: flex;
+  font-size: 18px;
+  justify-content: space-between;
+}
+
+.Day {
+  border-radius: 50px !important;
 }

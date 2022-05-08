@@ -1,5 +1,8 @@
 import React from "react";
 import { Row, Col } from "reactstrap";
+import { AiFillHome, AiOutlineSearch } from "react-icons/ai";
+import { HiOutlineUserGroup } from "react-icons/hi";
+import { CgUserList } from "react-icons/cg";
 import "../components/family/familycss.css";
 
 function Navbar() {
@@ -10,18 +13,16 @@ function Navbar() {
       >
         <Row xs="4">
           <Col className="navcol">
-          <i className="fa-solid fa-house-chimney"></i>
+          <AiFillHome className="fa-3x"/><h6>홈</h6>
           </Col>
           <Col className="navcol">
-            <i className="fa fa-solid fa-magnifying-glass fa-2x"></i>
+          <AiOutlineSearch className="fa-3x"/><h6>약 검색</h6>
           </Col>
           <Col className="navcol">
-            <i className="fa fa-light fa-users fa-2x"></i>
-            <br/><h6>가족관리</h6>
+          <HiOutlineUserGroup className="fa-3x"/><h6>가족관리</h6>
           </Col>
           <Col className="navcol">
-            <i className="fa fa-regular fa-address-card fa-2x"></i>
-            <br/><h6>내정보</h6>
+            <CgUserList className="fa-3x"/><h6>내정보</h6>
           </Col>
         </Row>
       </div>

@@ -70,7 +70,7 @@ ReactDOM.render(
             <Route exact path="/login-page" render={(props) => <LoginPage {...props} />} />
             <Route exact path="/main" render={(props) => <ElderMain {...props} />} />
             <Route exact path="/pill-today" render={(props) => <PillToday {...props} />} />
-            <Route exact path="/pill-detail" render={(props) => <PillDetail {...props} />} />
+            <Route exact path="/pill-detail/:pillSeq" render={(props) => <PillDetail {...props} />} />
             <Route exact path="/pill-search" render={(props) => <PillSearch {...props} />} />
             <Route path="/pill-take" render={(props) => <PillTake {...props} />} />
             <Route path="/pill-picture" render={(props) => <PillPicture {...props} />} />

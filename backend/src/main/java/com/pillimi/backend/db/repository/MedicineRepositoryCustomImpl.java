@@ -25,7 +25,7 @@ public class MedicineRepositoryCustomImpl implements MedicineRepositoryCustom {
     @Override
     public List<SearchRes> findByMedicineNameContaining(String keyword) {
         return jpaQueryFactory.select(Projections.constructor(SearchRes.class,
-                        qMedicine.medicineSeq, qMedicine.medicineName, qShape.shapeImage))
+                        qMedicine.medicineSeq, qMedicine.medicineName, qMedicine.medicineImage))
                 .from(qMedicine).leftJoin(qShape)
                 .on(qShape.shapeSeq.eq(qMedicine.shape.shapeSeq))
                 .where(qMedicine.medicineName.contains(keyword)).fetch();
@@ -40,7 +40,7 @@ public class MedicineRepositoryCustomImpl implements MedicineRepositoryCustom {
         return jpaQueryFactory.select(Projections.constructor(MedicineDetailRes.class,
                         qMedicine.medicineName,
                         qMedicine.medicineCompany,
-                        qShape.shapeImage,
+                        qMedicine.medicineImage,
                         qMedicine.medicineEffectSub.coalesce(qMedicine.medicineEffect),
                         qMedicine.medicineCautionSub.coalesce(qMedicine.medicineCaution),
                         qMedicine.medicineDosageSub.coalesce(qMedicine.medicineDosage),

@@ -4,6 +4,7 @@ import com.pillimi.backend.api.request.MemberMedicineCreateReq;
 import com.pillimi.backend.api.request.MemberMedicineUpdateReq;
 import com.pillimi.backend.api.response.CheckMedicineRes;
 import com.pillimi.backend.api.response.MemberMedicineRes;
+import com.pillimi.backend.api.response.TodayMedicineRes;
 import com.pillimi.backend.common.exception.DuplicateException;
 import com.pillimi.backend.common.exception.NotFoundException;
 import com.pillimi.backend.common.exception.handler.ErrorCode;
@@ -14,9 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,8 +37,6 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
 
     private final RemarkRepository remarkRepository;
 
-    private final IntakeTimeRepository intakeTimeRepository;
-
     private final DaaRepository daaRepository;
 
     private final DcaRepository dcaRepository;
@@ -51,36 +49,28 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
 
         Member member = memberRepository.getById(req.getMemberSeq());
         Medicine medicine = medicineRepository.getById(req.getMedicineSeq());
-        if (medicine == null) {
-            throw new NotFoundException(ErrorCode.MEDICINE_NOT_FOUND.getCode());
+
+        // 이미 등록된 약품이라면 에러 처리
+        MemberMedicine memberMedicine = memberMedicineRepository.findByMemberAndMedicine(member, medicine).orElseThrow(() -> new DuplicateException(ErrorCode.ALREADY_REGISTERED_MEMBER_MEDICINE));
+
+        memberMedicineRepository.save(MemberMedicine.builder().member(member)
+                        .medicine(medicine)
+                        .memberMedicineName(req.getMemberMedicineName())
+                        .memberMedicineNow(true)
+                        .memberMedicineCount(req.getIntakeCount())
+                        .memberMedicineStart(req.getStartDay())
+                        .memberMedicineEnd(req.getEndDay())
+                        .build());
+
+        for(int day : req.getIntakeDay()){
+            for(LocalTime time : req.getIntakeTime()){
+                medicineIntakeRepository.save(MedicineIntake.builder()
+                        .memberMedicine(memberMedicine)
+                        .intakeDay(day)
+                        .intakeTime(time)
+                        .build());
+            }
         }
-
-        Optional<MemberMedicine> memberMedicineOptional = memberMedicineRepository.findByMemberAndMedicine(member, medicine);
-        if(memberMedicineOptional.isPresent()){
-            throw new DuplicateException(ErrorCode.ALREADY_REGISTERED_MEMBER_MEDICINE);
-        }
-        MemberMedicine memberMedicine = memberMedicineRepository.save(MemberMedicine.builder().member(member)
-                .medicine(medicine)
-                .memberMedicineName(req.getMemberMedicineName())
-                .memberMedicineNow(true)
-                .build());
-
-        MedicineIntake medicineIntake = medicineIntakeRepository.save(MedicineIntake.builder()
-                .memberMedicine(memberMedicine)
-                .intakeDay(req.getIntakeDay())
-                .intakeIsconfirm(false)
-                .intakeCount(req.getIntakeCount())
-                .intakeStart(req.getStartDay())
-                .intakeEnd(req.getEndDay())
-                .build());
-
-        for (Double time : req.getIntakeTime()) {
-            intakeTimeRepository.save(IntakeTime.builder()
-                    .medicineIntake(medicineIntake)
-                    .intakeTime(time)
-                    .build());
-        }
-
 
         List<MedicineIngredient> medicineIngredients = medicineIngredientRepository.findMedicineIngredientByMedicine(medicine);
 
@@ -112,29 +102,23 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
                 .medicine(medicine)
                 .memberMedicineName(req.getMemberMedicineName())
                 .memberMedicineNow(true)
+                .memberMedicineCount(req.getIntakeCount())
+                .memberMedicineStart(req.getStartDay())
+                .memberMedicineEnd(req.getEndDay())
                 .build());
 
-        MedicineIntake medicineIntake = medicineIntakeRepository.getByMemberMedicine(memberMedicine);
+        medicineIntakeRepository.deleteByMemberMedicine(memberMedicine);
 
-        medicineIntakeRepository.save(MedicineIntake.builder()
-                .medicineIntakeSeq(medicineIntake.getMedicineIntakeSeq())
-                .memberMedicine(memberMedicine)
-                .intakeDay(req.getIntakeDay())
-                .intakeIsconfirm(medicineIntake.isIntakeIsconfirm())
-                .intakeCount(req.getIntakeCount())
-                .intakeStart(req.getStartDay())
-                .intakeEnd(req.getEndDay())
-                .build());
-
-        intakeTimeRepository.deleteByMedicineIntake(medicineIntake);
-
-        for (Double time : req.getIntakeTime()) {
-            intakeTimeRepository.save(IntakeTime.builder()
-                    .medicineIntake(medicineIntake)
-                    .intakeTime(time)
-                    .build());
+        for(int day : req.getIntakeDay()){
+            for(LocalTime time : req.getIntakeTime()){
+                medicineIntakeRepository.save(MedicineIntake.builder()
+                        .memberMedicine(memberMedicine)
+                        .intakeDay(day)
+                        .intakeTime(time)
+                        .intakeIsconfirm(false)
+                        .build());
+            }
         }
-
 
         Remark remark = remarkRepository.getByMemberMedicine(memberMedicine);
         remarkRepository.save(Remark.builder()
@@ -173,24 +157,28 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
         List<MemberMedicine> memberMedicines = memberMedicineRepository.getByMember(member);
         List<MemberMedicineRes> memberMedicineResList = new LinkedList<MemberMedicineRes>();
         for (MemberMedicine memberMedicine : memberMedicines) {
-            MedicineIntake medicineIntake = medicineIntakeRepository.getByMemberMedicine(memberMedicine);
+            List<MedicineIntake> medicineIntakes = medicineIntakeRepository.getByMemberMedicine(memberMedicine);
             Remark remark = remarkRepository.getByMemberMedicine(memberMedicine);
-            List<Double> Times = new LinkedList<Double>();
-            List<IntakeTime> intakeTimes = intakeTimeRepository.findByMedicineIntake(medicineIntake);
-            for (IntakeTime intakeTime : intakeTimes) {
-                Times.add(intakeTime.getIntakeTime());
+            HashSet<Integer> dayset = new HashSet<>();
+            HashSet<LocalTime> timeset = new HashSet<>();
+            for(MedicineIntake medicineIntake : medicineIntakes) {
+                timeset.add(medicineIntake.getIntakeTime());
+                dayset.add(medicineIntake.getIntakeDay());
             }
+            System.out.println(timeset);
+            List<LocalTime> times = new LinkedList<>(timeset);
+            List<Integer> days = new LinkedList<>(dayset);
 
             MemberMedicineRes memberMedicineRes = MemberMedicineRes.builder()
                     .memberMedicineSeq(memberMedicine.getMemberMedicineSeq())
                     .imageURL("www.jcgroup.hk/wp-content/uploads/2019/08/test-img-300x194_2.png")
                     .medicineSeq(memberMedicine.getMedicine().getMedicineSeq())
                     .memberMedicineName(memberMedicine.getMemberMedicineName())
-                    .startDay(medicineIntake.getIntakeStart())
-                    .endDay(medicineIntake.getIntakeEnd())
-                    .intakeDay(medicineIntake.getIntakeDay())
-                    .intakeTime(Times)
-                    .intakeCount(medicineIntake.getIntakeCount())
+                    .startDay(memberMedicine.getMemberMedicineStart())
+                    .endDay(memberMedicine.getMemberMedicineEnd())
+                    .intakeDay(days)
+                    .intakeTime(times)
+                    .intakeCount(memberMedicine.getMemberMedicineCount())
                     .remarkContent(remark.getRemarkContent())
                     .isNow(memberMedicine.isMemberMedicineNow())
                     .build();
@@ -204,27 +192,29 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
     public MemberMedicineRes getMemberMedicineInfo(Long memberMedicineSeq) {
         MemberMedicine memberMedicine = memberMedicineRepository.findByMemberMedicineSeq(memberMedicineSeq);
 
-            MedicineIntake medicineIntake = medicineIntakeRepository.getByMemberMedicine(memberMedicine);
-            Remark remark = remarkRepository.getByMemberMedicine(memberMedicine);
-            List<Double> Times = new LinkedList<Double>();
-            List<IntakeTime> intakeTimes = intakeTimeRepository.findByMedicineIntake(medicineIntake);
-            for (IntakeTime intakeTime : intakeTimes) {
-                Times.add(intakeTime.getIntakeTime());
-            }
+        List<MedicineIntake> medicineIntakes = medicineIntakeRepository.getByMemberMedicine(memberMedicine);
+        Remark remark = remarkRepository.getByMemberMedicine(memberMedicine);
+        List<LocalTime> times = new LinkedList<>();
+        HashSet<Integer> dayset = new HashSet<>();
+        for(MedicineIntake medicineIntake : medicineIntakes) {
+            times.add(medicineIntake.getIntakeTime());
+            dayset.add(medicineIntake.getIntakeDay());
+        }
+        List<Integer> days = new LinkedList<>(dayset);
 
-            MemberMedicineRes memberMedicineRes = MemberMedicineRes.builder()
-                    .memberMedicineSeq(memberMedicine.getMemberMedicineSeq())
-                    .imageURL("www.jcgroup.hk/wp-content/uploads/2019/08/test-img-300x194_2.png")
-                    .medicineSeq(memberMedicine.getMedicine().getMedicineSeq())
-                    .memberMedicineName(memberMedicine.getMemberMedicineName())
-                    .startDay(medicineIntake.getIntakeStart())
-                    .endDay(medicineIntake.getIntakeEnd())
-                    .intakeDay(medicineIntake.getIntakeDay())
-                    .intakeTime(Times)
-                    .intakeCount(medicineIntake.getIntakeCount())
-                    .remarkContent(remark.getRemarkContent())
-                    .isNow(memberMedicine.isMemberMedicineNow())
-                    .build();
+        MemberMedicineRes memberMedicineRes = MemberMedicineRes.builder()
+                .memberMedicineSeq(memberMedicine.getMemberMedicineSeq())
+                .imageURL("www.jcgroup.hk/wp-content/uploads/2019/08/test-img-300x194_2.png")
+                .medicineSeq(memberMedicine.getMedicine().getMedicineSeq())
+                .memberMedicineName(memberMedicine.getMemberMedicineName())
+                .startDay(memberMedicine.getMemberMedicineStart())
+                .endDay(memberMedicine.getMemberMedicineEnd())
+                .intakeDay(days)
+                .intakeTime(times)
+                .intakeCount(memberMedicine.getMemberMedicineCount())
+                .remarkContent(remark.getRemarkContent())
+                .isNow(memberMedicine.isMemberMedicineNow())
+                .build();
 
         return memberMedicineRes;
     }
@@ -292,5 +282,27 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
         return CheckMedicineRes.builder()
                 .checkType(0)
                 .build();
+    }
+
+    /*
+    오늘의 약 목록 조회
+     */
+    @Override
+    public TreeMap<LocalTime, List<TodayMedicineRes>> findTodayMedicineList(Member member) {
+
+        List<TodayMedicineRes> list = memberMedicineRepository.findTodayMedicineList(member);
+
+        TreeMap<LocalTime, List<TodayMedicineRes>> res = new TreeMap<>();
+
+        for (TodayMedicineRes todayMedicineRes : list) {
+            LocalTime time = todayMedicineRes.getTime();
+
+            if(!res.containsKey(time)){
+                res.put(time, new ArrayList<>());
+            }
+            res.get(time).add(todayMedicineRes);
+        }
+
+        return res;
     }
 }

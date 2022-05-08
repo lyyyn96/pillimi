@@ -24,9 +24,6 @@ public class Shape{
     private Long shapeSeq;
 
     @Column
-    private String shapeImage;
-
-    @Column
     private String shapeFrontMark;
 
     @Column

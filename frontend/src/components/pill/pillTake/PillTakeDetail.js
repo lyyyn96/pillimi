@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Button, Modal } from "reactstrap";
+import { Badge, Button, Modal, FormGroup } from "reactstrap";
 // import moment from "moment";
 
 import PillTakeRegisterCSS from "../css/PillTakeRegister.module.css";
@@ -59,8 +59,30 @@ function PillTakeDetail() {
         <h3 className={PillTakeRegisterCSS.Label}>복용 종료 일자</h3>
         <h5>2022/05/30</h5>
         <br></br>
-        <h3 className={PillTakeRegisterCSS.Label}>복용 주기</h3>
-        <h5>7일</h5>
+        <h3 className={PillTakeRegisterCSS.Label}>복용 요일</h3>
+        <FormGroup className={PillTakeRegisterCSS.DayGroup}>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            월
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            화
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            수
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            목
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            금
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            토
+          </Badge>
+          <Badge className={PillTakeRegisterCSS.Day} color="default">
+            일
+          </Badge>
+        </FormGroup>
         <br></br>
         <div className="d-flex align-items-center">
           <h3
@@ -74,8 +96,8 @@ function PillTakeDetail() {
           9:00
         </Badge>
         <br></br>
-        <h3 className={PillTakeRegisterCSS.Label}>복용 용량</h3>
-        <h5>500mg</h5>
+        <h3 className={PillTakeRegisterCSS.Label}>복용 개수</h3>
+        <h5>2알</h5>
         <br></br>
         <h3 className={PillTakeRegisterCSS.Label}>섭취 후 특이사항</h3>
         <h5>없음</h5>

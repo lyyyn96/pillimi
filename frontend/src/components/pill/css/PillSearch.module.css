@@ -55,6 +55,7 @@ hr {
   width: 77.5% !important;
   box-shadow: none !important;
   cursor: pointer !important;
+  word-break: break-all;
 }
 
 .Img {
@@ -73,4 +74,8 @@ hr {
 i {
   float: right;
   margin-right: 2%;
+}
+
+.AlertText {
+  margin-left: 10% !important;
 }

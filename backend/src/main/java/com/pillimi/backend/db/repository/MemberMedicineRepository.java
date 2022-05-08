@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface MemberMedicineRepository extends JpaRepository<MemberMedicine, Long>, MemberMedicineRepositoryCustom {
 
     List<MemberMedicine> getByMember(Member member);
+
     MemberMedicine findByMemberMedicineSeq(long memberMedicineSeq);
 
 }
