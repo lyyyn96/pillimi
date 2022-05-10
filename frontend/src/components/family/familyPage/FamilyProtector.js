@@ -3,6 +3,7 @@ import { Row, Col, ListGroup, ListGroupItem, Modal } from "reactstrap";
 import "../familycss.css";
 import { getMyFamily } from "api/family"
 
+
 function FamilyProtector() {
   const [modalbool, setmodalbool] = useState(false)
   const [modalnum, setModalNum] = useState(-1);
@@ -11,6 +12,16 @@ function FamilyProtector() {
     setModalNum(num)
     setmodalbool(!modalbool)
   }
+  // const [FamilyData, setFamilyData] = useState([])
+  const getFamilyData = () => {
+    getMyFamily((success)=> {
+      console.log(success)
+    },)
+  }
+
+  useEffect(()=>{
+    getFamilyData();
+  })
 
   
   

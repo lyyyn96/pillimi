@@ -154,3 +154,7 @@ h5 {
 .Day {
   border-radius: 50px !important;
 }
+.selDay{
+  border-radius: 50px !important;
+  background-color: #0284c7 !important;
+}
