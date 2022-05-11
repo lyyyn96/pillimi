@@ -219,9 +219,8 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
                 Daa daa = daaOptional.get();
                 return CheckMedicineRes.builder()
                         .checkType(1)
-                        .checkDesc(medicineIngredient.getMedicine().getMedicineName()
-                                + "중  " + medicineIngredient.getIngredient().getIngredientName()
-                                + "성분은 노인 금기 약물입니다. 확인해주세요.\n" + daa.getDaaDesc())
+                        .checkDesc("약품 중  " + medicineIngredient.getIngredient().getIngredientName()
+                                + "성분은 노인 금기 성분입니다.\n" + daa.getDaaDesc())
                         .build();
             }
 
@@ -237,7 +236,6 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
                         return CheckMedicineRes.builder()
                                 .checkType(2)
                                 .checkDesc(dea.getDeaName() + "성분은 현재 복용중입니다..\n"
-                                        + medicineIngredient.getMedicine().getMedicineName()
                                         + "악품의 " + medicineIngredient.getIngredient().getIngredientName()
                                         + "성분을 확인해주세요.\n"
                                         + dea.getDeaEffectName())
@@ -255,10 +253,9 @@ public class MemberMedicineServiceImpl implements MemberMedicineService {
                     Dca dca = dcaOptional.get();
                     return CheckMedicineRes.builder()
                             .checkType(3)
-                            .checkDesc(medicineIngredient.getMedicine().getMedicineName()
-                                    + "의 성분 " + medicineIngredient.getIngredient().getIngredientName()
+                            .checkDesc("약품의 성분 " + medicineIngredient.getIngredient().getIngredientName()
                                     + "은 현재 복용중인 " + memberIngredient.getIngredient().getIngredientName()
-                                    + " 성분과 함께 먹을수 없습니다. 확인해주세요.\n"
+                                    + " 성분과 병용금기 입니다. 확인해주세요.\n"
                                     + dca.getDcaAvoidDesc())
                             .build();
                 }
