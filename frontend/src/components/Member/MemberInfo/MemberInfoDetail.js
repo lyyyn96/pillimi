@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { logoutAction } from "actions/memberAction";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import Navbar from "layout/Navbar.js";
 import { useHistory  } from "react-router-dom";
 
 // core components
@@ -21,6 +22,7 @@ function MemberInfoDetail(props) {
   const dispatch = useDispatch();
   let loginSeq = useSelector((state) => state.memberInfo.memberInfo.memberSeq);
   let isLogin = useSelector((state) => state.memberInfo.isLogin);
+  let isProtector = useSelector((state => state.memberInfo.memberInfo.protector));
   const [profile, setProfile] = useState({
     member_nickname: "",
     member_img: "",
@@ -89,6 +91,14 @@ function MemberInfoDetail(props) {
     }
   }
 
+  const ModiBtn = () => {
+    if(loginSeq==memberSeq || isProtector){
+      return (<Button color="sky" className={`${style.bigbnt}`} onClick={gotoMemberInfoModify}>수정</Button>)
+    } else{
+      return (<div></div>)
+    }
+  }
+
   function LogOut(){
       Swal.fire({
         icon: "success",
@@ -115,9 +125,10 @@ function MemberInfoDetail(props) {
             <Content></Content>
             <br></br>
           </div>
-          <Button color="sky" className={`${style.bigbnt}`} onClick={gotoMemberInfoModify}>수정</Button>
+          <ModiBtn></ModiBtn>
           <LogOutBtn></LogOutBtn>
         </div>
+        <Navbar/>
       </>
     );
   } else {

@@ -26,4 +26,5 @@ public class MemberIngredientRepositoryCustomImpl implements MemberIngredientRep
     public void deleteByMemberAndMedicineIngredient(Member member, MedicineIngredient medicineingredient) {
         jpaQueryFactory.delete(qMemberIngredient).where(qMemberIngredient.member.eq(member).and(qMemberIngredient.medicineIngredient.eq(medicineingredient))).execute();
     }
+
 }

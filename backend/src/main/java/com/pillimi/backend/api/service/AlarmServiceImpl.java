@@ -73,22 +73,6 @@ public class AlarmServiceImpl implements AlarmService {
     @Override
     public List<ProtectorAlarmRes> getAlarmProtectorList(Member protector, Member protege) {
 
-//        List<ProtectorAlarmRes> alarmProtectors = alarmProtectorRepository.findByProtectorAndProtege(protector, protege);
-//
-//        List<ProtectorAlarmRes> protectorAlarmResList = new LinkedList<>();
-//        for (AlarmProtector alarmProtector : alarmProtectors) {
-//            ProtectorAlarmRes protectorAlarmRes = ProtectorAlarmRes.builder().alarmProtectorSeq(alarmProtector.getAlarmSeq())
-//                    .protectorSeq(alarmProtector.getProtector().getMemberSeq())
-//                    .protegeSeq(alarmProtector.getAlarmProtege().getProtege().getMemberSeq())
-//                    .protegeName(alarmProtector.getAlarmProtege().getProtege().getMemberNickname())
-//                    .alarmDate(alarmProtector.getAlarmProtege().getAlarmDate())
-//                    .alarmTime(alarmProtector.getAlarmProtege().getAlarmTime())
-//                    .photoURL(alarmProtector.getAlarmPhoto())
-//                    .build();
-//
-//            protectorAlarmResList.add(protectorAlarmRes);
-//        }
-
         return alarmProtectorRepository.findByProtectorAndProtege(protector, protege);
     }
 

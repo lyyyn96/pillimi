@@ -9,6 +9,7 @@ import Datetime from 'react-datetime';
 import { getMemberInfoDetail, modifyMemberInfo } from '../../../api/member'
 import moment from "moment";
 import 'moment/locale/ko'
+import Navbar from "layout/Navbar.js";
 import Swal from "sweetalert2";
 
 // core components
@@ -227,6 +228,7 @@ function MemberInfoModify(props) {
           <Button color="sky" className={`${style.bigbnt}`} onClick={modifyInfo}>완료</Button>
           <Button color="danger" className={`${style.bigbnt}`} onClick={gotoMemberInfoDetail}>취소</Button>
         </div>
+        <Navbar/>
       </>
     );
   } else {
@@ -266,6 +268,7 @@ function MemberInfoModify(props) {
           <Button color="sky" className={`${style.bigbnt}`} onClick={modifyInfo}>완료</Button>
           <Button color="danger" className={`${style.bigbnt}`} onClick={gotoMemberInfoDetail}>취소</Button>
         </div>
+        <Navbar/>
       </>
     );
   }

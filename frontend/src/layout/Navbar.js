@@ -31,7 +31,7 @@ function Navbar() {
   };
   return (
     <>
-    {isProtector ? (
+      {isProtector ? (
         <div
           style={{
             backgroundColor: "#F1F1F1",
@@ -79,7 +79,7 @@ function Navbar() {
           </Row>
         </div>
       )}
-      
+
       {isProtector ? (
         <div
           style={{
@@ -90,9 +90,11 @@ function Navbar() {
             bottom: "0",
             width: "100%",
             height: "10vh",
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          <Row xs="4">
+          <Row xs="4" style={{ verticalAlign: "middle", margin: "auto" }}>
             <Col className="navcol" onClick={movepilltoday}>
               <AiFillHome className="fa-3x" />
               <h6>홈</h6>
@@ -121,11 +123,15 @@ function Navbar() {
             bottom: "0",
             width: "100%",
             height: "10vh",
+            display: "table",
           }}
         >
-          <Row xs="1">
+          <Row
+            xs="1"
+            style={{ display: "table-cell", verticalAlign: "middle" }}
+          >
             <Col className="navcol" onClick={movemain}>
-              <h2 style={{ margin: "0px" }}>처음 화면으로</h2>
+              <h2 style={{ margin: "0" }}>처음 화면으로</h2>
             </Col>
           </Row>
         </div>

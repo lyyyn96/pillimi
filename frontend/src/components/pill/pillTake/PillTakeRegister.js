@@ -64,9 +64,9 @@ function PillTakeRegister(props) {
       intakeCount: parseInt(pillRegister.volume),
       intakeDay: saveintakeDay,
       intakeTime: saveintakeTime,
-      medicineSeq: props.location.state.medicineSeq,
+      medicineSeq: parseInt(props.location.state.medicineSeq),
       memberMedicineName: pillRegister.nick,
-      memberSeq: props.location.state.memberSeq,
+      memberSeq: parseInt(props.location.state.memberSeq),
       remarkContent: pillRegister.caution,
       startDay: pillRegister.startDate,
     });
@@ -113,9 +113,9 @@ function PillTakeRegister(props) {
           intakeCount: parseInt(pillRegister.volume),
           intakeDay: saveintakeDay,
           intakeTime: saveintakeTime,
-          medicineSeq: props.location.state.medicineSeq,
+          medicineSeq: parseInt(props.location.state.medicineSeq),
           memberMedicineName: pillRegister.nick,
-          memberSeq: props.location.state.memberSeq,
+          memberSeq: parseInt(props.location.state.memberSeq),
           remarkContent: pillRegister.caution,
           startDay: pillRegister.startDate,
         },
@@ -155,6 +155,7 @@ function PillTakeRegister(props) {
         ...pillRegister,
         time: [...pillRegister.time, timeinput],
       });
+      settimeinput("")
     } else {
       settimecheck(true);
     }
@@ -309,7 +310,7 @@ function PillTakeRegister(props) {
             strictParsing={false}
             renderInput={(props) => {
               return (
-                <input
+                <input readOnly style={{backgroundColor:"white"}}
                   {...props}
                   value={smallend ? "" : pillRegister.startDate}
                 />
@@ -346,7 +347,7 @@ function PillTakeRegister(props) {
             strictParsing={false}
             renderInput={(props) => {
               return (
-                <input
+                <input readOnly style={{backgroundColor:"white"}}
                   {...props}
                   value={bigstart ? "" : pillRegister.endDate}
                 />
@@ -494,11 +495,18 @@ function PillTakeRegister(props) {
             name="time"
             className={PillTakeRegisterCSS.Input}
             dateFormat={false}
-            closeOnSelect
             timeConstraints={{
               minutes: { step: 10 },
             }}
             strictParsing={false}
+            renderInput={(props) => {
+              return (
+                <input readOnly style={{backgroundColor:"white"}}
+                  {...props}
+                  value={timeinput}
+                />
+              );
+            }}
           />
         </FormGroup>
         <Row xs="3" sm="4" md="6" style={{ justifyContent: "start" }}>

@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
-import { Input, Button, Card } from "reactstrap";
+import { Input, Button, Card, FormGroup } from "reactstrap";
 import Swal from "sweetalert2";
 import PillSearchCSS from "./css/PillSearch.module.css";
 import Header from "components/Headers/Header";
@@ -155,21 +155,25 @@ function PillSearch(props) {
         }}
       >
         <br></br>
-        <Input
-          className={PillSearchCSS.SearchInput}
-          onChange={onChangeKeyword}
-          onKeyPress={onEnterKeyword}
-          placeholder="검색어를 입력해주세요"
-          value={keyword}
-          type="text"
-        ></Input>
-        <Button
-          className={PillSearchCSS.SearchBtn}
-          onClick={() => goPillSearch()}
-        >
-          {" "}
-          검색
-        </Button>
+        <div>
+          <FormGroup>
+            <Input
+              className={PillSearchCSS.SearchInput}
+              onChange={onChangeKeyword}
+              onKeyPress={onEnterKeyword}
+              placeholder="검색어를 입력해주세요"
+              value={keyword}
+              type="text"
+            ></Input>
+            <Button
+              className={PillSearchCSS.SearchBtn}
+              onClick={() => goPillSearch()}
+            >
+              {" "}
+              검색
+            </Button>
+          </FormGroup>
+        </div>
         <br></br>
         <ShowPillList></ShowPillList>
       </div>

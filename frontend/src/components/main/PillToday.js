@@ -18,7 +18,9 @@ function PillToday() {
   const [pillListKey, setPillListKey] = useState([]);
 
   const myName = useSelector((state) => state.memberInfo.memberInfo.nickName);
-  const isProtector = useSelector((state) => state.memberInfo.memberInfo.protector);
+  const isProtector = useSelector(
+    (state) => state.memberInfo.memberInfo.protector
+  );
 
   let firstFamilySeq = "";
   const history = useHistory();
@@ -152,7 +154,11 @@ function PillToday() {
                   className={`d-flex align-items-center flex-row pl-3 pr-2 ${PillTodayCSS.WhiteBox} ${PillTodayCSS.ItemAlign}`}
                 >
                   <div className={`${style.imgsize2} ml-2`}>
-                    <img src={imageURL} className={`${style.size}`} alt="pillImg"></img>
+                    <img
+                      src={imageURL}
+                      className={`${style.size}`}
+                      alt="pillImg"
+                    ></img>
                   </div>
                   <div className="flex-fill">
                     <span>{medicineName}</span>
@@ -183,7 +189,9 @@ function PillToday() {
                         <br></br>
                         <br></br>
                         <Button
-                          onClick={() => gotoPillTakePicture(element.split(" ")[1])}
+                          onClick={() =>
+                            gotoPillTakePicture(element.split(" ")[1])
+                          }
                           className={PillTodayCSS.PictureBtn}
                         >
                           사진 찍기
@@ -223,7 +231,10 @@ function PillToday() {
       familyList.forEach((element) => {
         result.push(
           <>
-            <div style={{ cursor: "pointer", display: "inline" }} onClick={() => otherFamily(element.memberSeq)}>
+            <div
+              style={{ cursor: "pointer", display: "inline" }}
+              onClick={() => otherFamily(element.memberSeq)}
+            >
               <div>
                 <img
                   style={{ display: "block" }}
@@ -243,7 +254,14 @@ function PillToday() {
 
   return (
     <>
-      <div className={PillTodayCSS.Whole}>
+      <div
+        style={{
+          backgroundColor: "#eaf0f8",
+          width: "100vw",
+          minHeight: "100vh",
+          margin: "0 auto",
+        }}
+      >
         <div className={PillTodayCSS.Header}>
           <span className={PillTodayCSS.MemberName}>{myName}</span>
         </div>
